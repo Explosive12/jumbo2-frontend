@@ -11,7 +11,7 @@
         </div>
         <span class="price float-end">{{ product.price }}</span>
       </div>
-      <div class="card-footer">
+      <div class="card-footer" v-if="role == '1'">
         <button class="btn btn-warning" @click="editProduct(product.id)">Edit</button>&nbsp;&nbsp;
         <button class="btn btn-danger" @click="deleteProduct(product.id)">Delete</button>
       </div>
@@ -20,17 +20,26 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "../../axios-auth.js";
 
 export default {
   name: "ProductListItem",
   props: {
     product: Object,
   },
+  data() {
+    return {
+      role: "",
+    };
+  },
+  mounted()
+  {
+    this.role = localStorage.getItem("role");
+  },
   methods: {
     deleteProduct(id) {
       axios
-        .delete("http://localhost/products/" + id)
+        .delete("/products/" + id)
         .then((result) => {
           console.log(result);
           this.$emit('update')

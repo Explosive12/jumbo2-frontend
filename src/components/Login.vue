@@ -43,9 +43,10 @@ export default {
         username: this.username,
         password: this.password
       }).then (response => {
-        console.log(response);
+        console.log (response);
         localStorage.setItem('jwt', response.data.jwt);
-        localStorage.setItem('username', this.username);
+        localStorage.setItem('username', response.data.user.username);
+        localStorage.setItem('role', response.data.user.role);
           this.$router.push('/');
 
       }).catch(error => {

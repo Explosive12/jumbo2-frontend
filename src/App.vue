@@ -15,24 +15,19 @@ export default {
 
   created() {
     const token = localStorage.getItem('jwt');
-    console.log('Token:', token); 
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       axios.get('users/verify')
         .then(response => {
-          console.log(response);
-          if (response.data.jwt) {
-            console.log('Valid token');
+          if (response.data.valid) {
             this.$router.push('/');
           } else {
-            console.log('Invalid token');
             localStorage.removeItem('jwt');
             localStorage.removeItem('username');
             this.$router.push('/login');
           }
         })
         .catch(error => {
-          console.log(error);
           localStorage.removeItem('jwt');
           localStorage.removeItem('username');
           this.$router.push('/login');
