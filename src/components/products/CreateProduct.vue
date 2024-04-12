@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from '../../axios-auth.js';
 
 export default {
   name: "CreateProduct",
@@ -77,7 +77,7 @@ export default {
   methods: {
     addProduct() {
       axios
-        .post("http://localhost/products", this.product)
+        .post("/products", this.product)
         .then((res) => {
           console.log(res.data);
           this.$refs.form.reset();
