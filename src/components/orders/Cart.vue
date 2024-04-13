@@ -72,6 +72,7 @@ export default {
     },
     checkout() {
       console.log(this.products);
+      console.log(this.total);
       axios
         .post("/cart/order", {
           products: this.products,
@@ -79,7 +80,7 @@ export default {
         })
         .then((res) => {
           console.log(res.data);
-          //this.$store.dispatch("clearCart");
+          this.$store.dispatch("clearCart");
           this.$router.push("/paid");
         })
         .catch((error) => console.log(error));

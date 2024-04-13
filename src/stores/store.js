@@ -64,5 +64,8 @@ export const store = createStore({
       commit("setUser", { username, role });
       alert("You have been logged in.");
     },
+    clearCart({ commit }) {
+      commit("clearCart");
+    },
   },
 });
