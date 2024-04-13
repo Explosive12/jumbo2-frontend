@@ -44,7 +44,6 @@ export default {
         username: this.username,
         password: this.password
       }).then (response => {
-        console.log (response);
         this.$store.dispatch('setUser', {
           jwt: response.data.jwt,
           username: response.data.user.username,

@@ -11,6 +11,10 @@
         </div>
         <span class="price float-end">{{ product.price }}</span>
       </div>
+      <div class="card-footer" v-if="role != '1'">
+        <button class="btn btn-primary">Add to Cart</button>
+      </div>
+
       <div class="card-footer" v-if="role == '1'">
         <button class="btn btn-warning" @click="editProduct(product.id)">Edit</button>&nbsp;&nbsp;
         <button class="btn btn-danger" @click="deleteProduct(product.id)">Delete</button>

@@ -7,15 +7,15 @@
             <form>
               <div class="mb-3">
                 <label for="inputUsername" class="form-label">Username</label>
-                <input id="inputUsername" type="text" class="form-control" v-model="username"/>
+                <input id="inputUsername" type="text" class="form-control" v-model="username" required/>
               </div>
               <div class="mb-3">
                 <label for="inputPassword" class="form-label">Password</label>
-                <input type="password" class="form-control" v-model="password" id="inputPassword" />
+                <input type="password" class="form-control" v-model="password" id="inputPassword" required />
               </div>
               <div class="mb-3">
                 <label for="inputMail" class="form-label">Email</label>
-                <input type="email" class="form-control" v-model="email" id="inputMail" />
+                <input type="email" class="form-control" v-model="email" id="inputMail" required/>
             </div>
               <button type='button' @click="register()" class="btn btn-primary">register</button>
               <div v-if="statusmessage" class="alert alert-danger status-message mt-3">
