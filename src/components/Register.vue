@@ -49,9 +49,11 @@ export default {
                 email: this.email
             }).then(response => {
                 console.log(response);
-                localStorage.setItem('jwt', response.data.jwt);
-                localStorage.setItem('username', response.data.user.username);
-                localStorage.setItem('role', response.data.user.role);
+                this.$store.dispatch('setUser', {
+                    jwt: response.data.jwt,
+                    username: response.data.user.username,
+                    role: response.data.user.role
+                });
                 this.$router.push('/');
             }).catch(error => {
                 this.statusmessage = error.response.data.errorMessage;

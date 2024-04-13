@@ -27,14 +27,10 @@ export default {
   props: {
     product: Object,
   },
-  data() {
-    return {
-      role: "",
-    };
-  },
-  mounted()
-  {
-    this.role = localStorage.getItem("role");
+  computed: {
+    role() {
+      return store.state.role;
+    },
   },
   methods: {
     deleteProduct(id) {

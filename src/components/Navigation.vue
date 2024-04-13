@@ -10,27 +10,32 @@
           <li class="nav-item me-3">
             <router-link to="/products" class="nav-link" active-class="active">Products</router-link>
           </li>
-          <li class="nav-item me-3" v-if="!isLoggedIn">
-            <router-link to="/login" class="nav-link" active-class="active">Login</router-link>
-          </li>
-          <li class="nav-item me-3" v-if="!isLoggedIn">
-            <router-link to="/register" class="nav-link" active-class="active">Register</router-link>
-          </li>
-          <li class="nav-item me-3" v-if="isLoggedIn">
-            <a class="nav-link "> Welcome, {{ username }} </a>
-          </li>
           <li class="nav-item me-3" active-class="active" v-if="role == '1'">
             <router-link to="/createproduct" class="nav-link">Create Product</router-link>
           </li>
           <li class="nav-item me-3" active-class="active" v-if="role == '1'">
             <router-link to="/admin" class="nav-link">Admin</router-link>
           </li>
+          </ul>
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
-          <li class="nav-item me-3" v-if="isLoggedIn">
+          <li class="nav-item me-3 mb-lg-0" v-if="isLoggedIn">
+            <a class="nav-link "> Welcome, {{ username }} </a>
+          </li>
+          <li class="nav-item me-3 mb-lg-0" v-if="isLoggedIn">
             <a class="nav-link logout-link" @click="logout">Logout</a>
           </li>
-
-
+          <li class="nav-item me-3 mb-lg-0" v-if="!isLoggedIn">
+            <router-link to="/login" class="nav-link" active-class="active">Login</router-link>
+          </li>
+          <li class="nav-item me-3 mb-lg-0" v-if="!isLoggedIn">
+            <router-link to="/register" class="nav-link" active-class="active">Register</router-link>
+          </li>
+          <li class="nav-item me-3 mb-lg-0">
+            <router-link to="/cart" class="nav-link" active-class="active">
+              <i class="fas fa-shopping-cart"></i> Cart
+            </router-link>
+          </li>
         </ul>
       </div>
     </div>
@@ -38,29 +43,26 @@
 </template>
 
 <script>
+import { store } from '../stores/store.js';
+import router from '../router/index.js';
+
 export default {
   name: "Navigation",
-  data() {
-    return {
-      isLoggedIn: !!localStorage.getItem("jwt"),
-      username: localStorage.getItem("username"),
-      role: localStorage.getItem("role"),
-    };
-  },
-  watch: {
-    $route() {
-      this.isLoggedIn = !!localStorage.getItem("jwt");
-      this.username = localStorage.getItem("username");
-      this.role = localStorage.getItem("role");
+  computed: {
+    isLoggedIn() {
+      return store.state.isLoggedIn;
+    },
+    username() {
+      return store.state.username;
+    },
+    role() {
+      return store.state.role;
     },
   },
   methods: {
     logout() {
-      localStorage.removeItem("jwt");
-      localStorage.removeItem("username");
-      localStorage.removeItem("role");
-      this.isLoggedIn = false;
-      this.$router.push("/");
+      store.dispatch("logout");
+      router.push("/");
     },
   },
 };

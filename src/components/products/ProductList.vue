@@ -19,13 +19,18 @@
 
 <script>
 import axios from "../../axios-auth.js";
-
 import ProductListItem from "./ProductListItem.vue";
+import { store } from "../../stores/store.js";
 
 export default {
   name: "ProductList",
   components: {
     ProductListItem,
+  },
+  computed: {
+    role() {
+      return store.state.role;
+    },
   },
   data() {
     return {
@@ -34,7 +39,6 @@ export default {
   },
   mounted() {
     this.update();
-    this.role = localStorage.getItem("role");
   },
   methods: {
     update() {

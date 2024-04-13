@@ -6,6 +6,8 @@ import CreateProduct from '../components/products/CreateProduct.vue';
 import EditProduct from '../components/products/EditProduct.vue';
 import Login from '../components/Login.vue';
 import Register from '../components/Register.vue';
+import Admin from '../components/Admin.vue';
+import Cart from '../components/orders/Cart.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,7 +18,9 @@ const router = createRouter({
     { path: '/logout', component: Login },
     { path: '/register', component: Register },
     { path: '/createproduct', component: CreateProduct },
-    { path: '/editproduct/:id', component: EditProduct, props: true  }
+    { path: '/editproduct/:id', component: EditProduct, props: true  },
+    { path: '/admin', component: Admin},
+    { path: '/cart', component: Cart}
   ]
 })
 
