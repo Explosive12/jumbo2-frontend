@@ -2,7 +2,7 @@
   <section>
     <div class="container">
       <h2 class="mt-3 mt-lg-5">Products</h2>
-        <button v-if="role == '1'" type="button" class="btn btn-primary mt-3" @click="this.$router.push('/createproduct');">
+        <button v-if="role == '1'" type="button" class="btn btn-primary mt-3" @click="addProduct">
             Add product
           </button>
       <div class="row mt-3">
@@ -53,6 +53,9 @@ export default {
           this.products = result.data;
         })
         .catch((error) => console.log(error));
+    },
+    addProduct() {
+    this.$router.push({ path: '/createproduct' });
     },
   },
 };

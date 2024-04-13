@@ -21,6 +21,7 @@
 
 <script>
 import axios from "../../axios-auth.js";
+import { store } from "../../stores/store.js";
 
 export default {
   name: "ProductListItem",
