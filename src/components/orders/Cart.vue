@@ -70,6 +70,20 @@ export default {
         })
       );
     },
+    checkout() {
+      console.log(this.products);
+      axios
+        .post("/cart/order", {
+          products: this.products,
+          total: this.total,
+        })
+        .then((res) => {
+          console.log(res.data);
+          //this.$store.dispatch("clearCart");
+          this.$router.push("/paid");
+        })
+        .catch((error) => console.log(error));
+    },
   },
 };
 </script>

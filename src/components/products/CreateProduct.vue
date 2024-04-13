@@ -17,12 +17,19 @@
 
         <div class="input-group mb-3">
           <span class="input-group-text">Description</span>
-          <textarea class="form-control" v-model="product.description"></textarea>
+          <textarea
+            class="form-control"
+            v-model="product.description"
+          ></textarea>
         </div>
 
         <div class="input-group mb-3">
           <span class="input-group-text">Image URL</span>
           <input type="text" class="form-control" v-model="product.image" />
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text">Stock</span>
+          <input type="number" class="form-control" v-model="product.stock" />
         </div>
 
         <div class="input-group mb-3">
@@ -67,6 +74,7 @@ export default {
         price: "",
         description: "",
         image: "",
+        stock: "",
         category_id: 0,
       },
       categories: [],
