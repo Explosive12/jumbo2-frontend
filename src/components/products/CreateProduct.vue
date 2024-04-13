@@ -17,10 +17,7 @@
 
         <div class="input-group mb-3">
           <span class="input-group-text">Description</span>
-          <textarea
-            class="form-control"
-            v-model="product.description"
-          ></textarea>
+          <textarea class="form-control" v-model="product.description"></textarea>
         </div>
 
         <div class="input-group mb-3">
@@ -34,7 +31,8 @@
             <option
               v-for="category in categories"
               :key="category.id"
-              :value="category.id">
+              :value="category.id"
+            >
               {{ category.name }}
             </option>
           </select>
@@ -58,7 +56,7 @@
 </template>
 
 <script>
-import axios from '../../axios-auth.js';
+import axios from "../../axios-auth.js";
 
 export default {
   name: "CreateProduct",
@@ -98,5 +96,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

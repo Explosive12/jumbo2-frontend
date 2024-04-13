@@ -1,53 +1,38 @@
 <template>
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xxl-3 p-2">
-      <div class="card product-card h-100">
-        <div class="card-body">
-          <img :src="item.product.image" :alt="item.product.title" :title="item.product.title" />
-          <div class="float-start">
-            <p>{{ item.product.name }}</p>
-            <p>
-              <small>{{ item.product.category.name }}</small>
-            </p>
-          </div>
-          <span class="price float-end">{{ item.price }}</span>
-        </div>
-        <div class="card-footer">
-          <button @click="decreaseQuantity(item.id)">-</button>
-          <span>{{ item.quantity }}</span>
-          <button @click="increaseQuantity(item.id)">+</button>
-        </div>
-      </div>
-    </div>
-  </template>
+  <tr>
+    <td>{{ item.product.name }}</td>
+    <td>{{ item.quantity }}</td>
+    <td>{{ formatPrice(item.product.price) }}</td>
+    <td>{{ formatPrice(item.product.price * item.quantity) }}</td>
+    <td>
+      <button class="btn btn-danger" @click="removeFromCart(item.product.id)">
+        Remove
+      </button>
+    </td>
+  </tr>
+</template>
 
 <script>
-
-import axios from "../../axios-auth.js";
-
 export default {
-  name: "OrderItem",
   props: {
-    item: Object,
+    item: {
+      type: Object,
+      required: true,
+    },
   },
   methods: {
-    decreaseQuantity(id) {
-      axios
-        .put("/orders/" + id + "/decrease")
-        .then((result) => {
-          console.log(result);
-          this.$emit('update')
+    formatPrice(price) {
+      return (
+        "€" +
+        Number(price).toLocaleString(undefined, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
         })
-        .catch((error) => console.log(error));
+      );
     },
-    increaseQuantity(id) {
-      axios
-        .put("/orders/" + id + "/increase")
-        .then((result) => {
-          console.log(result);
-          this.$emit('update')
-        })
-        .catch((error) => console.log(error));
-    }
+    removeFromCart(id) {
+      this.$store.dispatch("removeProduct", id);
+    },
   },
 };
 </script>

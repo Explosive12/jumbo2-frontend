@@ -7,13 +7,23 @@
           <form>
             <div class="mb-3">
               <label for="inputUsername" class="form-label">Username</label>
-              <input id="inputUsername" type="text" class="form-control" v-model="username"/>
+              <input
+                id="inputUsername"
+                type="text"
+                class="form-control"
+                v-model="username"
+              />
             </div>
             <div class="mb-3">
               <label for="inputPassword" class="form-label">Password</label>
-              <input type="password" class="form-control" v-model="password" id="inputPassword" />
+              <input
+                type="password"
+                class="form-control"
+                v-model="password"
+                id="inputPassword"
+              />
             </div>
-            <button type='button' @click="login()" class="btn btn-primary">Login</button>
+            <button type="button" @click="login()" class="btn btn-primary">Login</button>
             <div v-if="statusmessage" class="alert alert-danger status-message mt-3">
               {{ statusmessage }}
             </div>
@@ -25,9 +35,7 @@
 </template>
 
 <script>
-import axios from '../axios-auth.js';
-
-
+import axios from "../axios-auth.js";
 
 export default {
   name: "Login",
@@ -35,33 +43,35 @@ export default {
     return {
       username: "",
       password: "",
-      statusmessage: ""
+      statusmessage: "",
     };
   },
   methods: {
     login() {
-      axios.post('users/login', {
-        username: this.username,
-        password: this.password
-      }).then (response => {
-        this.$store.dispatch('setUser', {
-          jwt: response.data.jwt,
-          username: response.data.user.username,
-          role: response.data.user.role
+      axios
+        .post("users/login", {
+          username: this.username,
+          password: this.password,
+        })
+        .then((response) => {
+          this.$store.dispatch("setUser", {
+            jwt: response.data.jwt,
+            username: response.data.user.username,
+            role: response.data.user.role,
+          });
+          this.$router.push("/");
+        })
+        .catch((error) => {
+          console.log(error);
+          this.statusmessage = error.response.data.errorMessage;
         });
-          this.$router.push('/');
-      }).catch(error => {
-        console.log(error);
-        this.statusmessage = error.response.data.errorMessage;
-      });
     },
-  }
+  },
 };
 </script>
 
 <style>
 .status-message {
-
   transition: all 0.3s ease;
 }
 </style>
