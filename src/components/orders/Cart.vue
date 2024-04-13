@@ -71,6 +71,14 @@ export default {
       );
     },
     checkout() {
+      if (!this.$store.state.isLoggedIn) {
+        alert("Please log in to checkout");
+        return;
+      }
+      if (this.products.length === 0) {
+        alert("Cart is empty");
+        return;
+      }
       console.log(this.products);
       console.log(this.total);
       axios

@@ -46,12 +46,16 @@
         </div>
 
         <div class="input-group mt-4">
-          <button type="button" class="btn btn-primary" @click="addProduct">
+          <button
+            type="button"
+            class="btn btn-primary button-spacing"
+            @click="addProduct"
+          >
             Create product
           </button>
           <button
             type="button"
-            class="btn btn-danger"
+            class="btn btn-danger mr-3"
             @click="this.$router.push('/products')"
           >
             Cancel
@@ -104,4 +108,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.button-spacing {
+  margin-right: 20px;
+}
+</style>

@@ -42,7 +42,11 @@
         </div>
 
         <div class="input-group mt-4">
-          <button type="button" class="btn btn-primary" @click="updateProduct">
+          <button
+            type="button"
+            class="btn btn-primary button-spacing"
+            @click="updateProduct"
+          >
             Save changes
           </button>
           <button
@@ -111,4 +115,7 @@ export default {
 </script>
 
 <style>
+.button-spacing {
+  margin-right: 20px;
+}
 </style>
