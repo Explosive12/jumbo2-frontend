@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "../../axios-auth.js";
 
 export default {
   name: "CreateProduct",
@@ -86,7 +86,7 @@ export default {
   methods: {
     updateProduct() {
       axios
-        .put("http://localhost/products/" + this.product.id, this.product)
+        .put("/products/" + this.product.id, this.product)
         .then((res) => {
           console.log(res.data);
           this.$refs.form.reset();
@@ -97,12 +97,12 @@ export default {
   },
   mounted() {
     axios
-      .get("http://localhost/categories")
+      .get("/categories")
       .then((result) => {
         console.log(result);
         this.categories = result.data;
         axios
-          .get("http://localhost/products/" + this.id)
+          .get("/products/" + this.id)
           .then((result) => {
             console.log(result);
             this.product = result.data;

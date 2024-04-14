@@ -1,6 +1,6 @@
-# Vue JWT starter project
+# Jumbo 2 (sequel!)
 
-This project is meant as a starting point for a lecture about adding JWT authentication and state management to a vue app
+Cool project for the jumbo 2 supermarket! (Front-end)
 
 ## Project Setup
 
