@@ -23,8 +23,13 @@
                 id="inputPassword"
               />
             </div>
-            <button type="button" @click="login()" class="btn btn-primary">Login</button>
-            <div v-if="statusmessage" class="alert alert-danger status-message mt-3">
+            <button type="button" @click="login()" class="btn btn-primary">
+              Login
+            </button>
+            <div
+              v-if="statusmessage"
+              class="alert alert-danger status-message mt-3"
+            >
               {{ statusmessage }}
             </div>
           </form>
@@ -54,6 +59,7 @@ export default {
           password: this.password,
         })
         .then((response) => {
+          console.log(response.data);
           this.$store.dispatch("setUser", {
             jwt: response.data.jwt,
             username: response.data.user.username,
