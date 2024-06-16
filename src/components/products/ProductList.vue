@@ -19,6 +19,12 @@
                 placeholder="Search products"
                 class="form-control"
             />
+
+            <div class="pagination">
+              <button @click="decreaseOffset">Previous</button>
+              <button @click="increaseOffset">Next</button>
+            </div>
+
             <select v-model="selectedCategory" class="form-control mt-2">
               <option value="">All Categories</option>
               <option
@@ -81,6 +87,8 @@ export default {
       categories: [],
       searchTerm: "",
       selectedCategory: "",
+      offset: 0,
+      limit: 12,
     };
   },
   mounted() {
@@ -89,7 +97,12 @@ export default {
   },
   methods: {
     update() {
-      axios.get("/products")
+        axios.get("/products", {
+          params: {
+            offset: this.offset,
+            limit: this.limit
+          }
+        })
           .then((result) => {
             console.log(result);
             this.products = result.data;
@@ -106,6 +119,16 @@ export default {
     },
     addProduct() {
       this.$router.push({ path: "/createproduct" });
+    },
+    increaseOffset() {
+      this.offset += this.limit;
+      this.update();
+    },
+    decreaseOffset() {
+      if (this.offset >= this.limit) {
+        this.offset -= this.limit;
+      }
+      this.update();
     },
   },
 };
@@ -128,4 +151,30 @@ input,
 select {
   width: 200px;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.pagination button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pagination button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.pagination button:not(:disabled):hover {
+  background-color: #0056b3;
+}
+
 </style>

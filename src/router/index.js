@@ -6,7 +6,7 @@ import CreateProduct from "../components/products/CreateProduct.vue";
 import EditProduct from "../components/products/EditProduct.vue";
 import Login from "../components/Login.vue";
 import Register from "../components/Register.vue";
-import Admin from "../components/Admin.vue";
+import Admin from "../components/AdminUsers.vue";
 import Cart from "../components/orders/Cart.vue";
 import Paid from "../components/orders/Paid.vue";
 
