@@ -1,5 +1,5 @@
 <template>
-    <section class="d-flex align-items-center justify-content-center">
+  <section class="d-flex align-items-center justify-content-center section-margin">
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
@@ -62,5 +62,8 @@ export default {
   <style>
   .status-message {
     transition: all 0.3s ease;
+  }
+  .section-margin {
+    margin-top: 50px;
   }
   </style>

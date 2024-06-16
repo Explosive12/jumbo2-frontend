@@ -65,13 +65,22 @@ export default {
   },
   methods: {
     deleteProduct(id) {
-      axios
-          .delete("/products/" + id)
-          .then((result) => {
-            console.log(result);
-            this.$emit("update");
-          })
-          .catch((error) => console.log(error));
+      const userStore = useUserStore();
+      const token = userStore.getToken;
+
+      if (confirm(`Are you sure you want to delete ${this.product.name}?`)) {
+        axios
+            .delete("/products/" + id, {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            })
+            .then((result) => {
+              console.log(result);
+              this.$emit("update");
+            })
+            .catch((error) => console.log(error));
+      }
     },
     addToCart(product, quantity) {
       const cartStore = useCartStore();

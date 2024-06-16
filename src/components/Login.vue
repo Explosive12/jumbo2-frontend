@@ -1,5 +1,5 @@
 <template>
-  <section class="d-flex align-items-center justify-content-center">
+  <section class="d-flex align-items-center justify-content-center section-margin">
     <div class="col-md-4">
       <div class="card">
         <div class="card-body">
@@ -12,6 +12,7 @@
                 type="text"
                 class="form-control"
                 v-model="username"
+                autocomplete="current-username"
               />
             </div>
             <div class="mb-3">
@@ -21,6 +22,7 @@
                 class="form-control"
                 v-model="password"
                 id="inputPassword"
+                autocomplete="current-password"
               />
             </div>
             <button type="button" @click="login()" class="btn btn-primary">
@@ -76,4 +78,9 @@ export default {
 .status-message {
   transition: all 0.3s ease;
 }
+
+.section-margin {
+  margin-top: 50px;
+}
+
 </style>
