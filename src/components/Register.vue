@@ -27,41 +27,37 @@
       </div>
     </section>
   </template>
-  
-  <script>
-import axios from '../axios-auth.js';
+
+<script>
+import { useUserStore } from '@/stores/userStore';
 
 export default {
-    name: "Register",
-    data() {
-        return {
-            username: "",
-            password: "",
-            email: "",
-            statusmessage: ""
-        };
+  name: "Register",
+  data() {
+    return {
+      username: "",
+      password: "",
+      email: "",
+      statusmessage: ""
+    };
+  },
+  methods: {
+    register() {
+      const userStore = useUserStore();
+      userStore.register(this.username, this.email, this.password)
+          .then(() => {
+            this.$router.push('/');
+          })
+          .catch(error => {
+            console.log(error);
+            this.statusmessage = error.response && error.response.data && error.response.data.errorMessage
+                ? error.response.data.errorMessage
+                : 'An error occurred';
+          });
     },
-    methods: {
-        register() {
-            axios.post('users/register', {
-                username: this.username,
-                password: this.password,
-                email: this.email
-            }).then(response => {
-                console.log(response);
-                this.$store.dispatch('setUser', {
-                    jwt: response.data.jwt,
-                    username: response.data.user.username,
-                    role: response.data.user.role
-                });
-                this.$router.push('/');
-            }).catch(error => {
-                this.statusmessage = error.response.data.errorMessage;
-            });
-        },
-    }
+  }
 };
-  </script>
+</script>
   
   <style>
   .status-message {

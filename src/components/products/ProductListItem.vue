@@ -11,25 +11,25 @@
         </div>
         <span class="price float-end">{{ formatPrice(product.price) }}</span>
       </div>
-      <div class="mb-3">
-        Quantity: <input type="number" min="1" v-model="quantity" />
-      </div>
-      <div class="card-footer" v-if="role != '1'">
+      <div class="card-footer" v-if="!isAdmin">
+        <div class="mb-3">
+          Quantity: <input type="number" min="1" v-model="quantity" />
+        </div>
         <button
-          class="btn btn-primary mt-3"
-          @click="addToCart(product, quantity)"
+            class="btn btn-primary mt-3"
+            @click="addToCart(product, quantity)"
         >
           Add to Cart
         </button>
         <div
-          v-if="statusmessage"
-          class="alert alert-warning status-message mt-3"
+            v-if="statusMessage"
+            class="alert alert-warning status-message mt-3"
         >
-          {{ statusmessage }}
+          {{ statusMessage }}
         </div>
       </div>
 
-      <div class="card-footer" v-if="role == '1'">
+      <div class="card-footer" v-if="isAdmin">
         <button class="btn btn-warning mt-3" @click="editProduct(product.id)">
           Edit</button
         >&nbsp;&nbsp;
@@ -42,14 +42,15 @@
 </template>
 
 <script>
-import axios from "../../axios-auth.js";
-import { store } from "../../stores/store.js";
+import { useUserStore } from "@/stores/userStore";
+import { useCartStore } from "@/stores/cartStore";
+import axios from "@/axios-auth.js";
 
 export default {
   data() {
     return {
       quantity: 1,
-      statusmessage: "",
+      statusMessage: "",
     };
   },
   name: "ProductListItem",
@@ -57,37 +58,38 @@ export default {
     product: Object,
   },
   computed: {
-    role() {
-      return store.state.role;
+    isAdmin() {
+      const userStore = useUserStore();
+      return userStore ? userStore.role === 1 : false;
     },
   },
   methods: {
     deleteProduct(id) {
       axios
-        .delete("/products/" + id)
-        .then((result) => {
-          console.log(result);
-          this.$emit("update");
-        })
-        .catch((error) => console.log(error));
+          .delete("/products/" + id)
+          .then((result) => {
+            console.log(result);
+            this.$emit("update");
+          })
+          .catch((error) => console.log(error));
     },
     addToCart(product, quantity) {
-      this.$store.dispatch("addToCart", { product, quantity });
+      const cartStore = useCartStore();
+      cartStore.addToCart(product, quantity);
       console.log("Product added to cart");
       this.$emit("update");
-      this.statusmessage = `${product.name} added to cart, quantity: ${quantity}`;
+      this.statusMessage = `${product.name} added to cart, quantity: ${quantity}`;
     },
     editProduct(id) {
       this.$router.push("/editproduct/" + id);
     },
-    // https://stackoverflow.com/questions/31581011/how-to-use-tolocalestring-and-tofixed2-in-javascript
     formatPrice(price) {
       return (
-        "€" +
-        Number(price).toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })
+          "€" +
+          Number(price).toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })
       );
     },
   },

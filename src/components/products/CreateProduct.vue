@@ -1,5 +1,4 @@
 <template>
-  <section>
     <div class="container">
       <form ref="form">
         <h2 class="mt-3 mt-lg-5">Create a product</h2>
@@ -63,11 +62,11 @@
         </div>
       </form>
     </div>
-  </section>
 </template>
 
 <script>
 import axios from "../../axios-auth.js";
+import { useUserStore } from "@/stores/userStore";
 
 export default {
   name: "CreateProduct",
@@ -86,8 +85,13 @@ export default {
   },
   methods: {
     addProduct() {
+      const token = useUserStore().token;
       axios
-        .post("/products", this.product)
+          .post("/products", this.product, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          })
         .then((res) => {
           console.log(res.data);
           this.$refs.form.reset();
@@ -98,7 +102,7 @@ export default {
   },
   mounted() {
     axios
-      .get("http://localhost/categories")
+        .get("/categories")
       .then((result) => {
         console.log(result);
         this.categories = result.data;

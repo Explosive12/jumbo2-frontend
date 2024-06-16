@@ -40,22 +40,26 @@
 </template>
 
 <script>
-import axios from "../../axios-auth.js";
-import { mapState } from "vuex";
+import { useCartStore } from "@/stores/cartStore";
+import { useUserStore } from "@/stores/userStore";
 import OrderItem from "./OrderItem.vue";
+import axios from "../../axios-auth.js";
 
 export default {
   name: "App",
   components: {
-    Navigation,
     OrderItem,
   },
   computed: {
-    ...mapState(["products"]),
+    products() {
+      const cartStore = useCartStore();
+      return cartStore.getProducts;
+    },
     total() {
-      const total = this.products.reduce(
-        (total, item) => total + item.product.price * item.quantity,
-        0
+      const cartStore = useCartStore();
+      const total = cartStore.getProducts.reduce(
+          (total, item) => total + item.product.price * item.quantity,
+          0
       );
       return this.formatPrice(total);
     },
@@ -63,35 +67,47 @@ export default {
   methods: {
     formatPrice(price) {
       return (
-        "€" +
-        Number(price).toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })
+          "€" +
+          Number(price).toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })
       );
     },
+    removeFromCart(productId) {
+      const cartStore = useCartStore();
+      console.log("Product Removed from cart");
+      cartStore.removeProduct(productId);
+    },
     checkout() {
-      if (!this.$store.state.isLoggedIn) {
+      const cartStore = useCartStore();
+      if (!useUserStore().isLoggedIn) {
         alert("Please log in to checkout");
         return;
       }
-      if (this.products.length === 0) {
+      if (cartStore.getProducts.length === 0) {
         alert("Cart is empty");
         return;
       }
-      console.log(this.products);
+      console.log(cartStore.getProducts);
       console.log(this.total);
+
+      const token = useUserStore().token;
       axios
-        .post("/cart/order", {
-          products: this.products,
-          total: this.total,
-        })
-        .then((res) => {
-          console.log(res.data);
-          this.$store.dispatch("clearCart");
-          this.$router.push("/paid");
-        })
-        .catch((error) => console.log(error));
+          .post("/cart/order", {
+            products: cartStore.getProducts,
+            total: this.total,
+          }, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          })
+          .then((res) => {
+            console.log(res.data);
+            cartStore.clearCart();
+            this.$router.push("/paid");
+          })
+          .catch((error) => console.log(error));
     },
   },
 };

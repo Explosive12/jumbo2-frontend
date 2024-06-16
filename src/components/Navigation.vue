@@ -12,10 +12,10 @@
               >Products</router-link
             >
           </li>
-          <li class="nav-item me-3" active-class="active" v-if="role == '1'">
+          <li class="nav-item me-3" active-class="active" v-if="role === 1">
             <router-link to="/createproduct" class="nav-link">Create Product</router-link>
           </li>
-          <li class="nav-item me-3" active-class="active" v-if="role == '1'">
+          <li class="nav-item me-3" active-class="active" v-if="role === 1">
             <router-link to="/admin" class="nav-link">Admin</router-link>
           </li>
         </ul>
@@ -48,25 +48,29 @@
 </template>
 
 <script>
-import { store } from "../stores/store.js";
+import { useUserStore } from "@/stores/userStore.js";
 import router from "../router/index.js";
 
 export default {
   name: "Navigation",
   computed: {
     isLoggedIn() {
-      return store.state.isLoggedIn;
+      const userStore = useUserStore();
+      return userStore.token !== null;
     },
     username() {
-      return store.state.username;
+      const userStore = useUserStore();
+      return userStore.username;
     },
     role() {
-      return store.state.role;
+      const userStore = useUserStore();
+      return userStore.role;
     },
   },
   methods: {
     logout() {
-      store.dispatch("logout");
+      const userStore = useUserStore();
+      userStore.logout();
       router.push("/");
     },
   },
@@ -81,7 +85,6 @@ body {
 }
 
 .brand {
-  font-size: 1.5rem;
   font-weight: bold;
   font-size: 40px;
   color: white;

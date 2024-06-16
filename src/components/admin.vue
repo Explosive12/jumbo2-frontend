@@ -3,7 +3,7 @@
     <h1>Admin</h1>
     <input
       type="text"
-      v-model="searchTerm"
+      v-model="searchBox"
       placeholder="Search username"
       class="form-control"
     />
@@ -35,19 +35,20 @@
 
 <script>
 import axios from "../axios-auth.js";
+import {useUserStore} from "@/stores/userStore";
 
 export default {
   name: "Admin",
   data() {
     return {
       users: [],
-      searchTerm: "",
+      searchBox: "",
     };
   },
   computed: {
     filteredUsers() {
       return this.users.filter((user) =>
-        user.username.toLowerCase().includes(this.searchTerm.toLowerCase())
+        user.username.toLowerCase().includes(this.searchBox.toLowerCase())
       );
     },
   },
@@ -58,18 +59,23 @@ export default {
         "Role of " +
           user.username +
           " is about to be updated to " +
-          (user.role == "1" ? "admin" : "user") +
+          (user.role === "1" ? "admin" : "user") +
           ". Do you want to proceed?"
       );
       if (confirmation) {
+        const token = useUserStore().getToken;
         axios
-          .put(`admin/users/${user.id}`, user)
+            .put(`admin/users/${user.id}`, user, {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            })
           .then((res) => {
             console.log(res.data);
           })
           .catch((error) => console.log(error));
       } else {
-        user.role = user.role == "1" ? "2" : "1";
+        user.role = user.role === "1" ? "2" : "1";
       }
     },
   },

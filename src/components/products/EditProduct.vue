@@ -64,6 +64,7 @@
 
 <script>
 import axios from "../../axios-auth.js";
+import {useUserStore} from "@/stores/userStore";
 
 export default {
   name: "CreateProduct",
@@ -85,8 +86,13 @@ export default {
   },
   methods: {
     updateProduct() {
+      const token = useUserStore().getToken;
       axios
-        .put("/products/" + this.product.id, this.product)
+        .put("/products/" + this.product.id, this.product, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
         .then((res) => {
           console.log(res.data);
           this.$refs.form.reset();

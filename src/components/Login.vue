@@ -27,10 +27,10 @@
               Login
             </button>
             <div
-              v-if="statusmessage"
+              v-if="statusMessage"
               class="alert alert-danger status-message mt-3"
             >
-              {{ statusmessage }}
+              {{ statusMessage }}
             </div>
           </form>
         </div>
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import axios from "../axios-auth.js";
+import { useUserStore } from "@/stores/userStore.js";
 
 export default {
   name: "Login",
@@ -48,29 +48,25 @@ export default {
     return {
       username: "",
       password: "",
-      statusmessage: "",
+      statusMessage: "",
     };
   },
   methods: {
     login() {
-      axios
-        .post("users/login", {
-          username: this.username,
-          password: this.password,
-        })
-        .then((response) => {
-          console.log(response.data);
-          this.$store.dispatch("setUser", {
-            jwt: response.data.jwt,
-            username: response.data.user.username,
-            role: response.data.user.role,
+      const userStore = useUserStore();
+      userStore
+          .login(this.username, this.password)
+          .then(() => {
+            this.$router.push("/");
+          })
+          .catch((error) => {
+            console.log(error);
+            if (error.response) {
+              this.statusMessage = error.response.data.errorMessage;
+            } else {
+              this.statusMessage = "An error occurred while trying to log in.";
+            }
           });
-          this.$router.push("/");
-        })
-        .catch((error) => {
-          console.log(error);
-          this.statusmessage = error.response.data.errorMessage;
-        });
     },
   },
 };
