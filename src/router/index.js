@@ -9,6 +9,7 @@ import Register from "../components/Register.vue";
 import Admin from "../components/AdminUsers.vue";
 import Cart from "../components/orders/Cart.vue";
 import Paid from "../components/orders/Paid.vue";
+import AdminOrders from "@/components/AdminOrders.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,7 +21,8 @@ const router = createRouter({
     { path: "/register", component: Register },
     { path: "/createproduct", component: CreateProduct },
     { path: "/editproduct/:id", component: EditProduct, props: true },
-    { path: "/admin", component: Admin },
+    { path: "/admin/users", component: Admin },
+    { path: "/admin/orders", component: AdminOrders},
     { path: "/cart", component: Cart },
     { path: "/paid", component: Paid },
   ],

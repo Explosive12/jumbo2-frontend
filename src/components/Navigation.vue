@@ -16,7 +16,10 @@
             <router-link to="/createproduct" class="nav-link">Create Product</router-link>
           </li>
           <li class="nav-item me-3" active-class="active" v-if="role === 1">
-            <router-link to="/admin" class="nav-link">Admin</router-link>
+            <router-link to="/admin/users" class="nav-link">Admin User view</router-link>
+          </li>
+          <li class="nav-item me-3" active-class="active" v-if="role === 1">
+            <router-link to="/admin/orders" class="nav-link">Admin Order view</router-link>
           </li>
         </ul>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">

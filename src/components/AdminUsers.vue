@@ -1,6 +1,6 @@
-<template xmlns="http://www.w3.org/1999/html">
+<template>
   <div>
-    <h1>Admin</h1>
+    <h1>Admin Users</h1>
     <input
         type="text"
         v-model="searchBox"
